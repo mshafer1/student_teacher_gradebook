@@ -4,15 +4,15 @@
 	<workbookPr defaultThemeVersion="166925"/>
 	<mc:AlternateContent xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
 		<mc:Choice Requires="x15">
-			<x15ac:absPath xmlns:x15ac="http://schemas.microsoft.com/office/spreadsheetml/2010/11/ac" url="C:\Users\mjsha\Documents\Git\student-teacher-gradebook\source\"/>
+			<x15ac:absPath xmlns:x15ac="http://schemas.microsoft.com/office/spreadsheetml/2010/11/ac" url="{cwd}\"/>
 		</mc:Choice>
 	</mc:AlternateContent>
 	<revision value="redacted"/>
 	<bookViews>
-		<workbookView xWindow="-120" yWindow="-120" windowWidth="24240" windowHeight="13020" xr2:uid="{B070FB64-A09F-4E76-863D-65BCF5678F37}"/>
+		<workbookView xWindow="23880" yWindow="2895" windowWidth="29040" windowHeight="15720" xr2:uid="{B070FB64-A09F-4E76-863D-65BCF5678F37}"/>
 	</bookViews>
 	<sheets>
-		<sheet name="Sheet1" sheetId="1" r:id="rId1"/>
+		<sheet name="Progress" sheetId="2" r:id="rId1"/>
 	</sheets>
 	<calcPr calcId="191029"/>
 	<extLst>

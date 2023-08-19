@@ -24,7 +24,7 @@ def test____teacher_book_with_roster___populate_student_sheets___creates_expecte
     snapshot: pytest_snapshot.plugin.Snapshot,
     request,
 ):
-    with student_teacher_gradebook._MainWorkbook(temp_teacher_workbook) as teacher_book:
+    with student_teacher_gradebook.MainWorkbook(temp_teacher_workbook) as teacher_book:
         teacher_book.set_column_range("Roster", 2, "B", roster)
 
     result = console_runner("populate-student-sheets")

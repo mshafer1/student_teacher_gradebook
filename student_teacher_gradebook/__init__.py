@@ -1,3 +1,4 @@
+import contextlib
 import hashlib
 import logging
 import pathlib
@@ -65,6 +66,8 @@ class _BaseWorkBook:
     def __init__(self, path: _StrOrPath) -> None:
         self._path = pathlib.Path(path).resolve()
         self._workbook = None
+        self._app = win32.gencache.EnsureDispatch("Excel.Application")
+        self._app.Visible = True
 
     def _workbook_must_be_opened(inner):
         def wrapper(self, *args, **kwargs):
@@ -73,6 +76,18 @@ class _BaseWorkBook:
             return inner(self, *args, **kwargs)
 
         return wrapper
+    
+    @staticmethod
+    def _openWorkbook(xlapp, xlfile):
+        """from https://stackoverflow.com/a/39880844/8100990"""
+        xlwb = xlapp.Workbooks.Open(xlfile)
+        return xlwb
+    
+    def open(self):
+        self._workbook = _BaseWorkBook._openWorkbook(self._app, str(self._path))
+
+    def save(self):
+        self._workbook.Save()
 
     @_workbook_must_be_opened
     def set_column_range(
@@ -100,8 +115,9 @@ class _BaseWorkBook:
         if isinstance(start_column_index, str):
             start_column_index = _excel_column_name_to_number(start_column_index)
         for i, value in enumerate(values):
-            sheet.Cells(row_index, start_column_index + i).Value = value
+            sheet.Cells(row_index, start_column_index + i).Value =  str(value)
 
+    @_workbook_must_be_opened
     def get_cells_value_range(
         self,
         sheet_name: str,
@@ -121,11 +137,23 @@ class _BaseWorkBook:
             values = [sheet.Cells(i, j).Value for j in range(column_index, end_column_index + 1)]
             yield values
 
+    @_workbook_must_be_opened
+    def worksheet_names(self):
+        for sheet in self._workbook.Worksheets:
+            yield sheet.Name
 
-def _openWorkbook(xlapp, xlfile):
-    """from https://stackoverflow.com/a/39880844/8100990"""
-    xlwb = xlapp.Workbooks.Open(xlfile)
-    return xlwb
+    @_workbook_must_be_opened
+    def remove_sheet(self, worksheet_name: str):
+        self._workbook.Sheets(worksheet_name).Delete()
+
+    @_workbook_must_be_opened
+    def add_sheet(self, worksheet_name: str):
+        self._workbook.Sheets.Add().Name=worksheet_name
+
+    @_workbook_must_be_opened
+    def rename_sheet(self, old_name: str, new_name: str):
+        self._workbook.Sheets(old_name).Name = new_name
+
 
 
 def _to_snake_case(value: str) -> str:
@@ -147,12 +175,14 @@ class StudentData(typing.NamedTuple):
     name: str
     student_file: typing.Optional[pathlib.Path]
 
-
-class _MainWorkbook(_BaseWorkBook):
+class StudentWorkbook(_BaseWorkBook):
     def __init__(self, path: pathlib.Path) -> None:
         super().__init__(path)
-        self._app = win32.gencache.EnsureDispatch("Excel.Application")
-        self._app.Visible = True
+
+class MainWorkbook(_BaseWorkBook):
+    def __init__(self, path: pathlib.Path) -> None:
+        super().__init__(path)
+        
 
         self._config = None
         self.student_workbooks: typing.Tuple[str, ...] = ()
@@ -209,6 +239,35 @@ class _MainWorkbook(_BaseWorkBook):
             roster
         )
     
+    @contextlib.contextmanager
+    def open_student_workbook(self, student: StudentData):
+        target_file = student.student_file
+        if not pathlib.Path(target_file).is_absolute():
+            target_file = _config.TEACHER_BOOK.parent / target_file
+        try:
+            student_workbook = StudentWorkbook(student.student_file)
+            student_workbook.open()
+            yield student_workbook
+        except Exception as e:
+            print(e)
+            raise
+        finally:
+            student_workbook._workbook.Close()
+
+
+    def get_student_values_for_sheet(self, sheet_names):
+        student_names = set([student.name for student in self.roster])
+        student_data_mapping: typing.Dict[str, list] = {}
+        for sheet_name in sheet_names:
+            for row in self.get_cells_value_range(sheet_name=sheet_name, start_row_index=1, column_index="A"):
+                if row[0] in student_names and any(val is not None for val in row[1:]):
+                    name = row[0]
+                    if name not in student_data_mapping:
+                        student_data_mapping[name] = []
+                    student_data_mapping[name].append([sheet_name] + row[1:])
+        return student_data_mapping
+
+    
     def update_student_values(self, student_index, student: StudentData):
         self.set_row_range(_config.ROSTER_SHEET_NAME, "A", student_index + _EXCEL_FIRST_ROW_OF_DATA + _TABLE_OFFSET, student)
         self._load_roster()
@@ -221,8 +280,12 @@ class _MainWorkbook(_BaseWorkBook):
     def roster(self):
         return tuple(self._roster)  # makes a copy on property read for iterating.
 
+    @property
+    def roster_as_mapping(self):
+        return {s.name: s for s in self.roster}
+
     def __enter__(self):
-        self._workbook = _openWorkbook(self._app, str(self._path))
+        self.open()
         self._load_config()
         return self
 
