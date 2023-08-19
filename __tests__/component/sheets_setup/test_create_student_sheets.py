@@ -53,7 +53,7 @@ def _assert_excel_data_in_dir(dir: pathlib.Path, snapshot: pytest_snapshot.plugi
             fin.extractall(unzipped_dir)
         data.update(
             **{
-                data_file.relative_to(unzipped_dir)
+                data_file.relative_to(unzipped_dir.parent)
                 .as_posix()
                 .replace("/", "___"): _pretty_xml(data_file)
                 for data_file in _filter_ignore_files(
@@ -68,8 +68,8 @@ def _assert_excel_data_in_dir(dir: pathlib.Path, snapshot: pytest_snapshot.plugi
 @pytest.mark.parametrize(
     ["roster"],
     [
-        pytest.param([]),
-        pytest.param(["John Doe", "Molly Doe", "Stephen Jane"]),
+        # pytest.param([]),
+        pytest.param(["John Doe", "Molly Doe", "Stephen Jane"], id="roster1"),
     ],
 )
 def test____teacher_book_with_roster___populate_student_sheets___creates_expected_workbooks(

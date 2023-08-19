@@ -85,6 +85,25 @@ class _BaseWorkBook:
         for i, value in enumerate(values):
             sheet.Cells(start_row_index + i, column_index).Value = value
 
+    def get_cells_value_range(
+        self,
+        sheet_name: str,
+        start_row_index: int,
+        column_index: typing.Union[int, str],
+        end_row_index: typing.Optional[int] = None,
+    ):
+        sheet = self._workbook.Worksheets(sheet_name)
+        if isinstance(column_index, str):
+            column_index = _excel_column_name_to_number(column_index)
+        if end_row_index is None:
+            end_row_index = sheet.UsedRange.Rows.Count
+
+        end_column_index = sheet.UsedRange.Columns.Count
+
+        for i in range(start_row_index, end_row_index + 1):
+            values = [sheet.Cells(i, j).Value for j in range(column_index, end_column_index + 1)]
+            yield values
+
 
 def _openWorkbook(xlapp, xlfile):
     """from https://stackoverflow.com/a/39880844/8100990"""
@@ -101,9 +120,15 @@ def _to_snake_case(value: str) -> str:
     return "_".join(x.lower() for x in value.split())
 
 
-class _Config(typing.NamedTuple):
+class Config(typing.NamedTuple):
     student_template_filename: str
     student_filename_format_string: str
+
+
+class StudentData(typing.NamedTuple):
+    id_: str
+    name: str
+    student_file: typing.Optional[pathlib.Path]
 
 
 class _MainWorkbook(_BaseWorkBook):
@@ -114,7 +139,7 @@ class _MainWorkbook(_BaseWorkBook):
 
         self._config = None
         self.student_workbooks: typing.Tuple[str, ...] = ()
-        self.roster: typing.Tuple[str, ...] = ()
+        self._roster: typing.Tuple[StudentData, ...] = ()
 
     def __del__(self):
         self._app.Quit()
@@ -131,7 +156,7 @@ class _MainWorkbook(_BaseWorkBook):
         config_sheet = self._workbook.Worksheets(_config.CONFIG_SHEET_NAME)
         max_rows = config_sheet.UsedRange.Rows.Count
 
-        _config_keys = _Config._fields
+        _config_keys = Config._fields
 
         config_sheet_data = {}
         for i in range(1, max_rows + 1):
@@ -143,13 +168,28 @@ class _MainWorkbook(_BaseWorkBook):
             if key in _config_keys:
                 config_sheet_data[key] = value
         try:
-            self._config = _Config(**config_sheet_data)
+            self._config = Config(**config_sheet_data)
         except TypeError:
             _MODULE_LOGGER.warning(
                 "Error, all required keys must be provided on the %s sheet.",
                 _config.CONFIG_SHEET_NAME,
             )
             raise
+
+        self._roster = (
+            StudentData(*row[:3])
+            for row in self.get_cells_value_range(
+                _config.ROSTER_SHEET_NAME, start_row_index=2, column_index="A"
+            )
+        )
+
+    @property
+    def config(self):
+        return self._config
+
+    @property
+    def roster(self):
+        return tuple(self._roster)  # makes a copy on property read for iterating.
 
     def __enter__(self):
         self._workbook = _openWorkbook(self._app, str(self._path))
