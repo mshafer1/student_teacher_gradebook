@@ -4,6 +4,7 @@ import re
 import typing
 import zipfile
 
+import pytest_snapshot.plugin
 import click.testing
 import xml.dom.minidom
 
