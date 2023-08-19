@@ -1,3 +1,4 @@
+"""A utility script for a teacher to track all students' assignments in one main spreadsheet and copy out to individual spreadsheets for students."""  # noqa: W505 - docs
 import logging
 import pathlib
 import shutil
@@ -33,8 +34,8 @@ def update_student_sheets():
                 student_teacher_gradebook._config.ROSTER_SHEET_NAME,
             }
         ]
-        student_data_mapping = main_workbook.get_student_values_for_sheet(worksheets_to_process)
-        # {'John Doe': [['Quiz 1', '10/10']], 'Molly Doe': [['Quiz 1', 98.5]], 'Stephen Jane': [['Quiz 1', 45.0]]}
+        student_data_mapping = main_workbook.get_student_values_from_sheets(worksheets_to_process)
+
         for student_name, data in student_data_mapping.items():
             student = main_workbook.roster_as_mapping[student_name]
             with main_workbook.open_student_workbook(student) as student_book:
@@ -51,8 +52,6 @@ def update_student_sheets():
                         sheet_name=sheet_name, start_column_index="A", row_index=1 + i, values=value
                     )
                 student_book.save()
-
-            # if student name appears in first column, copy row to student sheet replacing first column (name) with sheet name.
 
 
 @_cli.command()

@@ -4,8 +4,8 @@ import shutil
 import pytest
 import pytest_snapshot.plugin
 
-import tests._utils
 import student_teacher_gradebook
+import tests._utils
 
 MODULE_DIR = pathlib.Path(__file__).parent
 TEST_CASE_DIR = MODULE_DIR / "test_cases"

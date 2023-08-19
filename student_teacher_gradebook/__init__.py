@@ -1,3 +1,4 @@
+"""Utility for cloning student grades from a single teacher's workbook to one workbook per student."""  # noqa: W505
 import contextlib
 import hashlib
 import logging
@@ -16,8 +17,8 @@ _EXCEL_FIRST_ROW_OF_DATA = 1
 _TABLE_OFFSET = 1
 
 
-class _VBA_Consts:
-    xlUp = -4162
+class _VBA_Consts:  # noqa: N801
+    xlUp = -4162  # noqa: N815 - matching Excel convention
 
 
 def _excel_column_number_to_name(column_number):
@@ -70,6 +71,7 @@ class _BaseWorkBook:
         self._app = win32.gencache.EnsureDispatch("Excel.Application")
         self._app.Visible = True
 
+    @staticmethod
     def _workbook_must_be_opened(inner):
         def wrapper(self, *args, **kwargs):
             if self._workbook is None:
@@ -79,13 +81,12 @@ class _BaseWorkBook:
         return wrapper
 
     @staticmethod
-    def _openWorkbook(xlapp, xlfile):
-        """from https://stackoverflow.com/a/39880844/8100990"""
+    def _open_workbook(xlapp, xlfile):
         xlwb = xlapp.Workbooks.Open(xlfile)
         return xlwb
 
     def open(self):
-        self._workbook = _BaseWorkBook._openWorkbook(self._app, str(self._path))
+        self._workbook = _BaseWorkBook._open_workbook(self._app, str(self._path))
 
     def save(self):
         self._workbook.Save()
@@ -157,7 +158,7 @@ class _BaseWorkBook:
 
 
 def _to_snake_case(value: str) -> str:
-    """Split value on words and make snake case
+    """Split value on words and make snake case.
 
     >>> _to_snake_case("Student Template Filename")
     'student_template_filename'
@@ -166,23 +167,33 @@ def _to_snake_case(value: str) -> str:
 
 
 class Config(typing.NamedTuple):
+    """Data model for app settings."""
+
     student_template_filename: str
     student_filename_format_string: str
 
 
 class StudentData(typing.NamedTuple):
+    """Data model for student info."""
+
     id_: str
     name: str
     student_file: typing.Optional[pathlib.Path]
 
 
 class StudentWorkbook(_BaseWorkBook):
+    """Class to load and work on a student's workbook."""
+
     def __init__(self, path: pathlib.Path) -> None:
+        """Initialize student workbook."""
         super().__init__(path)
 
 
 class MainWorkbook(_BaseWorkBook):
+    """Model for interacting with the main workbook."""
+
     def __init__(self, path: pathlib.Path) -> None:
+        """Initialize Excel app and prep to load config."""
         super().__init__(path)
 
         self._config = None
@@ -190,17 +201,10 @@ class MainWorkbook(_BaseWorkBook):
         self._roster: typing.Tuple[StudentData, ...] = ()
 
     def __del__(self):
+        """Make sure we close out if we haven't already."""
         self._app.Quit()
 
-    @property
-    def progress_sheet(self):
-        ...
-
-    def set_workbook(self, roster_index, value):
-        ...
-
     def _load_config(self):
-        student_name_to_workbook_mapping = {}
         config_sheet = self._workbook.Worksheets(_config.CONFIG_SHEET_NAME)
         max_rows = config_sheet.UsedRange.Rows.Count
 
@@ -240,6 +244,7 @@ class MainWorkbook(_BaseWorkBook):
 
     @contextlib.contextmanager
     def open_student_workbook(self, student: StudentData):
+        """Open workbook for student."""
         target_file = student.student_file
         if not pathlib.Path(target_file).is_absolute():
             target_file = _config.TEACHER_BOOK.parent / target_file
@@ -253,7 +258,8 @@ class MainWorkbook(_BaseWorkBook):
         finally:
             student_workbook._workbook.Close()
 
-    def get_student_values_for_sheet(self, sheet_names):
+    def get_student_values_from_sheets(self, sheet_names: typing.Iterable[str]):
+        """Load student data for all sheets in sheet_names."""
         student_names = set([student.name for student in self.roster])
         student_data_mapping: typing.Dict[str, list] = {}
         for sheet_name in sheet_names:
@@ -269,6 +275,7 @@ class MainWorkbook(_BaseWorkBook):
         return student_data_mapping
 
     def update_student_values(self, student_index, student: StudentData):
+        """Update student in roster sheet."""
         self.set_row_range(
             _config.ROSTER_SHEET_NAME,
             "A",
@@ -279,22 +286,27 @@ class MainWorkbook(_BaseWorkBook):
 
     @property
     def config(self):
+        """App configuration."""
         return self._config
 
     @property
     def roster(self):
+        """Object representing the current roster."""
         return tuple(self._roster)  # makes a copy on property read for iterating.
 
     @property
     def roster_as_mapping(self):
+        """Student name to student in roster."""
         return {s.name: s for s in self.roster}
 
     def __enter__(self):
+        """Open workbook and load config."""
         self.open()
         self._load_config()
         return self
 
     def __exit__(self, *exc):
+        """After context, save and close workbook."""
         if self._workbook is not None:
             _MODULE_LOGGER.info("Saving changes to main workbook")
             self._workbook.Save()

@@ -1,7 +1,7 @@
+"""pytest setup config."""
 import functools
 import pathlib
 import shutil
-import unittest.mock
 
 import click.testing
 import pytest
@@ -13,12 +13,14 @@ import student_teacher_gradebook.__main__
 
 @pytest.fixture()
 def temp_cwd(monkeypatch: pytest.MonkeyPatch, tmp_path: pathlib.Path):
+    """Set the cwd to tmp_path for the test."""
     monkeypatch.chdir(str(tmp_path))
     yield tmp_path
 
 
 @pytest.fixture()
 def temp_teacher_workbook(temp_cwd, tmp_path: pathlib.Path, mocker: MockerFixture):
+    """Copy the source workbook to tmp_path, set cwd, and patch the config to use this."""
     source = student_teacher_gradebook._config.TEACHER_BOOK
     shutil.copy2(source, tmp_path)
 
@@ -32,6 +34,16 @@ def temp_teacher_workbook(temp_cwd, tmp_path: pathlib.Path, mocker: MockerFixtur
 
 @pytest.fixture()
 def console_runner():
+    """Fixture that provides a convenience wrapper around click.testing.CliRunner.invoke.
+
+    The wrapper sets the following.
+    mix_stderr=False / allowing for stdout and stderr to be checked seperately
+    standalone_mode=False / don't sys.exit on an issue
+    catch_exceptions=False / let Pytest handle errors.
+
+    The final return uses functools.partial to call 'student_teacher_gradebook.__main__._cli'
+    This allows for testing the cli by calling this fixture with intended args.
+    """
     runner = click.testing.CliRunner(mix_stderr=False)
     main = functools.partial(
         runner.invoke,

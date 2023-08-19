@@ -34,7 +34,6 @@ _IGNORE_FILE_PATTERNS = ("docProps/core.xml",)
 
 
 def _filter_ignore_files(files: typing.Iterable[pathlib.Path], root: pathlib.Path):
-    # return filter(lambda o: not any([fnmatch.fnmatch(data_file, ignore_pattern) for ignore_pattern in _IGNORE_FILE_PATTERNS]), files)
     result = []
     for file in files:
         if not any(
@@ -48,6 +47,11 @@ def _filter_ignore_files(files: typing.Iterable[pathlib.Path], root: pathlib.Pat
 
 
 def assert_excel_data_in_dir(dir: pathlib.Path, snapshot: pytest_snapshot.plugin.Snapshot):
+    """Assert that each *.xlsx file under `dir` matches snapshot.
+
+    This is accomplished by unzipping the files and doing a little sanitization
+    (e.g., replacing the CWD).
+    """
     excel_files = dir.rglob("*.xlsx")
     data = {}
     for file in excel_files:
