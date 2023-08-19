@@ -10,11 +10,9 @@ import student_teacher_gradebook
 MODULE_DIR = pathlib.Path(__file__).parent
 TEST_CASE_DIR = MODULE_DIR / "test_cases"
 
-@pytest.fixture
-def test_case():
-    for item in TEST_CASE_DIR.iterdir():
-        if item.is_dir():
-            yield item
+@pytest.fixture(params=[item for item in TEST_CASE_DIR.iterdir() if item.is_dir()])
+def test_case(request):
+    return request.param
 
 @pytest.fixture()
 def test_case_with_temp_cwd(test_case: pathlib.Path, temp_cwd: pathlib.Path):
