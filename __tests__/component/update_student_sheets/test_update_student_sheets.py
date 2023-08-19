@@ -10,9 +10,11 @@ import student_teacher_gradebook
 MODULE_DIR = pathlib.Path(__file__).parent
 TEST_CASE_DIR = MODULE_DIR / "test_cases"
 
+
 @pytest.fixture(params=[item for item in TEST_CASE_DIR.iterdir() if item.is_dir()])
 def test_case(request):
     return request.param
+
 
 @pytest.fixture()
 def test_case_with_temp_cwd(test_case: pathlib.Path, temp_cwd: pathlib.Path):
@@ -39,7 +41,5 @@ def test____teacher_book_with_roster___update_student_sheets___expected_spreadsh
     assert not result.exception
     output_dir = temp_cwd
 
-    snapshot.snapshot_dir = (
-        test_case_with_temp_cwd / "output" / "update_student_sheets"
-    )
+    snapshot.snapshot_dir = test_case_with_temp_cwd / "output" / "update_student_sheets"
     __tests__._utils.assert_excel_data_in_dir(output_dir, snapshot)

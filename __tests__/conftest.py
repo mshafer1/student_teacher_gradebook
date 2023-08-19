@@ -34,6 +34,9 @@ def temp_teacher_workbook(temp_cwd, tmp_path: pathlib.Path, mocker: MockerFixtur
 def console_runner():
     runner = click.testing.CliRunner(mix_stderr=False)
     main = functools.partial(
-        runner.invoke, student_teacher_gradebook.__main__._cli, standalone_mode=False, catch_exceptions=False
+        runner.invoke,
+        student_teacher_gradebook.__main__._cli,
+        standalone_mode=False,
+        catch_exceptions=False,
     )
     return main

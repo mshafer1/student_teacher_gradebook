@@ -24,10 +24,15 @@ def update_student_sheets():
     ) as main_workbook:
         # for each other worksheet besides 'Roster' and 'Config'
         print("Loading data...")
-        worksheets_to_process = [ws for ws in main_workbook.worksheet_names() if ws not in {
-            student_teacher_gradebook._config.CONFIG_SHEET_NAME,
-            student_teacher_gradebook._config.ROSTER_SHEET_NAME,
-        }]
+        worksheets_to_process = [
+            ws
+            for ws in main_workbook.worksheet_names()
+            if ws
+            not in {
+                student_teacher_gradebook._config.CONFIG_SHEET_NAME,
+                student_teacher_gradebook._config.ROSTER_SHEET_NAME,
+            }
+        ]
         student_data_mapping = main_workbook.get_student_values_for_sheet(worksheets_to_process)
         # {'John Doe': [['Quiz 1', '10/10']], 'Molly Doe': [['Quiz 1', 98.5]], 'Stephen Jane': [['Quiz 1', 45.0]]}
         for student_name, data in student_data_mapping.items():
@@ -42,12 +47,12 @@ def update_student_sheets():
                     student_book.remove_sheet(sheet)
                 student_book.rename_sheet(temp_new_sheet_name, sheet_name)
                 for i, value in enumerate(data):
-                    student_book.set_row_range(sheet_name=sheet_name, start_column_index="A", row_index=1 + i, values=value)
+                    student_book.set_row_range(
+                        sheet_name=sheet_name, start_column_index="A", row_index=1 + i, values=value
+                    )
                 student_book.save()
 
-            
             # if student name appears in first column, copy row to student sheet replacing first column (name) with sheet name.
-
 
 
 @_cli.command()
@@ -89,7 +94,9 @@ def populate_student_sheets():
                     student_file,
                 )
             if student.student_file is None:
-                new_student_data = student_teacher_gradebook.StudentData(**{**student._asdict(), "student_file": student_file})
+                new_student_data = student_teacher_gradebook.StudentData(
+                    **{**student._asdict(), "student_file": student_file}
+                )
                 main_workbook.update_student_values(i, new_student_data)
 
 

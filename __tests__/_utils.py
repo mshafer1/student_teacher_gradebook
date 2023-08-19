@@ -2,20 +2,18 @@ import fnmatch
 import pathlib
 import re
 import typing
+import xml.dom.minidom
 import zipfile
 
-import pytest_snapshot.plugin
 import click.testing
-import xml.dom.minidom
+import pytest_snapshot.plugin
 
-from __tests__ import conftest
 import student_teacher_gradebook
+from __tests__ import conftest
 
 RUNNER_TYPE = typing.Callable[[typing.List[str]], click.testing.Result]
 """ Type hint that specifies the result from `console_runner`, see link below. """
 _ = conftest.console_runner
-
-
 
 
 def _pretty_xml(file: pathlib.Path):
@@ -25,7 +23,7 @@ def _pretty_xml(file: pathlib.Path):
     result = data.toprettyxml()
     for remove, insert in [
         (re.escape(str(pathlib.Path(".").resolve())), "{cwd}"),
-        (re.escape(str( student_teacher_gradebook._config._MODULE_DIR )), "{source_dir}"),
+        (re.escape(str(student_teacher_gradebook._config._MODULE_DIR)), "{source_dir}"),
         (r"\<xr:revisionPtr.+?/\>", '<revision value="redacted"/>'),
     ]:
         result = re.sub(remove, insert, result, flags=re.IGNORECASE)
