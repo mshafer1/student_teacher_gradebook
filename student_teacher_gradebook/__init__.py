@@ -1,3 +1,4 @@
+import hashlib
 import logging
 import pathlib
 import typing
@@ -10,6 +11,8 @@ _MODULE_LOGGER = logging.getLogger(__name__)
 _MODULE_LOGGER.addHandler(logging.NullHandler())
 _StrOrPath = typing.Union[str, pathlib.Path]
 
+_EXCEL_FIRST_ROW_OF_DATA = 1
+_TABLE_OFFSET = 1
 
 class _VBA_Consts:
     xlUp = -4162
@@ -84,6 +87,20 @@ class _BaseWorkBook:
             column_index = _excel_column_name_to_number(column_index)
         for i, value in enumerate(values):
             sheet.Cells(start_row_index + i, column_index).Value = value
+
+    @_workbook_must_be_opened
+    def set_row_range(
+        self,
+        sheet_name: str,
+        start_column_index: typing.Union[int, str],
+        row_index: int,
+        values: typing.Iterable[typing.Any],
+    ):
+        sheet = self._workbook.Worksheets(sheet_name)
+        if isinstance(start_column_index, str):
+            start_column_index = _excel_column_name_to_number(start_column_index)
+        for i, value in enumerate(values):
+            sheet.Cells(row_index, start_column_index + i).Value = value
 
     def get_cells_value_range(
         self,
@@ -176,12 +193,25 @@ class _MainWorkbook(_BaseWorkBook):
             )
             raise
 
-        self._roster = (
-            StudentData(*row[:3])
-            for row in self.get_cells_value_range(
-                _config.ROSTER_SHEET_NAME, start_row_index=2, column_index="A"
-            )
+        self._load_roster()
+
+    def _load_roster(self):
+        roster = []
+        for row in self.get_cells_value_range(
+            _config.ROSTER_SHEET_NAME, start_row_index=2, column_index="A"
+        ):
+            data = row[:3]
+            if data[0] is None:
+                data[0] = hashlib.md5(data[1].encode("UTF-8")).hexdigest()[:8]
+            roster.append(StudentData(*data))
+
+        self._roster = tuple(
+            roster
         )
+    
+    def update_student_values(self, student_index, student: StudentData):
+        self.set_row_range(_config.ROSTER_SHEET_NAME, "A", student_index + _EXCEL_FIRST_ROW_OF_DATA + _TABLE_OFFSET, student)
+        self._load_roster()
 
     @property
     def config(self):

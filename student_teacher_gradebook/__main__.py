@@ -28,7 +28,7 @@ def populate_student_sheets():
     with student_teacher_gradebook._MainWorkbook(
         student_teacher_gradebook._config.TEACHER_BOOK
     ) as main_workbook:
-        for student in main_workbook.roster:
+        for i, student in enumerate(main_workbook.roster):
             print(student)
             if student.student_file is None:
                 _MODULE_LOGGER.info("Student %s does not have a student sheet yet.", student.name)
@@ -59,6 +59,9 @@ def populate_student_sheets():
                     / main_workbook.config.student_template_filename,
                     student_file,
                 )
+            if student.student_file is None:
+                new_student_data = student_teacher_gradebook.StudentData(**{**student._asdict(), "student_file": student_file})
+                main_workbook.update_student_values(i, new_student_data)
 
 
 if __name__ == "__main__":
