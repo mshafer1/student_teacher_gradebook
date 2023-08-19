@@ -9,7 +9,7 @@ import click.testing
 import pytest_snapshot.plugin
 
 import student_teacher_gradebook
-from __tests__ import conftest
+from tests import conftest
 
 RUNNER_TYPE = typing.Callable[[typing.List[str]], click.testing.Result]
 """ Type hint that specifies the result from `console_runner`, see link below. """

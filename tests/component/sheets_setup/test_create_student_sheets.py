@@ -4,7 +4,7 @@ import typing
 import pytest
 import pytest_snapshot.plugin
 
-import __tests__._utils
+import tests._utils
 import student_teacher_gradebook
 
 MODULE_DIR = pathlib.Path(__file__).parent
@@ -20,7 +20,7 @@ MODULE_DIR = pathlib.Path(__file__).parent
 def test____teacher_book_with_roster___populate_student_sheets___creates_expected_workbooks(
     roster: typing.Iterable[str],
     temp_teacher_workbook: pathlib.Path,
-    console_runner: __tests__._utils.RUNNER_TYPE,
+    console_runner: tests._utils.RUNNER_TYPE,
     snapshot: pytest_snapshot.plugin.Snapshot,
     request,
 ):
@@ -35,4 +35,4 @@ def test____teacher_book_with_roster___populate_student_sheets___creates_expecte
     snapshot.snapshot_dir = (
         MODULE_DIR / "snapshots/populate_student_sheets" / request.node.callspec.id
     )
-    __tests__._utils.assert_excel_data_in_dir(output_dir, snapshot)
+    tests._utils.assert_excel_data_in_dir(output_dir, snapshot)

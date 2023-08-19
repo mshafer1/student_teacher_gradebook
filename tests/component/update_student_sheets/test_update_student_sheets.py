@@ -4,7 +4,7 @@ import shutil
 import pytest
 import pytest_snapshot.plugin
 
-import __tests__._utils
+import tests._utils
 import student_teacher_gradebook
 
 MODULE_DIR = pathlib.Path(__file__).parent
@@ -32,7 +32,7 @@ def test_case_with_temp_cwd(test_case: pathlib.Path, temp_cwd: pathlib.Path):
 def test____teacher_book_with_roster___update_student_sheets___expected_spreadsheets_out(
     test_case_with_temp_cwd: pathlib.Path,
     temp_cwd: pathlib.Path,
-    console_runner: __tests__._utils.RUNNER_TYPE,
+    console_runner: tests._utils.RUNNER_TYPE,
     snapshot: pytest_snapshot.plugin.Snapshot,
     request,
 ):
@@ -42,4 +42,4 @@ def test____teacher_book_with_roster___update_student_sheets___expected_spreadsh
     output_dir = temp_cwd
 
     snapshot.snapshot_dir = test_case_with_temp_cwd / "output" / "update_student_sheets"
-    __tests__._utils.assert_excel_data_in_dir(output_dir, snapshot)
+    tests._utils.assert_excel_data_in_dir(output_dir, snapshot)
