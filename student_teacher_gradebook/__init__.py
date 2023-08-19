@@ -71,8 +71,7 @@ class _BaseWorkBook:
         self._app = win32.gencache.EnsureDispatch("Excel.Application")
         self._app.Visible = True
 
-    @staticmethod
-    def _workbook_must_be_opened(inner):
+    def _workbook_must_be_opened(inner):  # noqa: N805 - class-level decorator.
         def wrapper(self, *args, **kwargs):
             if self._workbook is None:
                 raise Exception()
