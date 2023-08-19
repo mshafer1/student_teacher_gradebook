@@ -262,9 +262,10 @@ class MainWorkbook(_BaseWorkBook):
             for row in self.get_cells_value_range(sheet_name=sheet_name, start_row_index=1, column_index="A"):
                 if row[0] in student_names and any(val is not None for val in row[1:]):
                     name = row[0]
+                    values = [val or '' for val in row[1:]]
                     if name not in student_data_mapping:
                         student_data_mapping[name] = []
-                    student_data_mapping[name].append([sheet_name] + row[1:])
+                    student_data_mapping[name].append([sheet_name] + values)
         return student_data_mapping
 
     

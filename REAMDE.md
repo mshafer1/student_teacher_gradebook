@@ -28,6 +28,18 @@ Files are copied from the `studentTemplate.xlsx` file.
 Output is stored in the current working directory (unless a path in `Student Filename Format String` overrides this)
 
 
+## `update-student-sheets`
+
+Reads the `Roster` sheet and copies data from the remaining sheets to each student's workbook.
+
+The location of the student workbook is determined by:
+  * relative to teacher sheet
+  * UNLESS absolute path is stored in `Roster`
+
+For each sheet (other than `Config` and `Roster`), for which a student has their name occur in the first column AND at least one non-empty cell in their row, a corresponding row is created in the student sheet with the name of the teacher's sheet replacing their name.
+
+Student sheets are generated fresh each run (removing all other sheets in the student workbook).
+
 
 # Known issues
 
