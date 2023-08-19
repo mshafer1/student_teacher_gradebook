@@ -18,6 +18,20 @@ class _VBA_Consts:
 class _BaseWorkBook:
     def __init__(self, path: _StrOrPath) -> None:
         self._path = pathlib.Path(path).resolve()
+        self._workbook = None
+    
+    def _workbook_must_be_opened(inner):
+        def wrapper(self, *args, **kwargs):
+            if self._workbook is None:
+                raise Exception()
+            return inner(self, *args, **kwargs)
+        return wrapper
+
+    @_workbook_must_be_opened
+    def set_column_range(self, sheet_name: str, start_row_index: int, column_index: int, values: typing.Iterable[typing.Any]):
+        sheet = self._workbook.Worksheets(sheet_name)
+        for i, value in enumerate(values):
+            sheet.Cells(start_row_index + i, column_index).Value = value
 
 
 def _openWorkbook(xlapp, xlfile):
@@ -45,7 +59,7 @@ class _MainWorkbook(_BaseWorkBook):
         super().__init__(path)
         self._app = win32.gencache.EnsureDispatch("Excel.Application")
         self._app.Visible = True
-        self._workbook = None
+        
         self._config = None
         self.student_workbooks: typing.Tuple[str, ...] = ()
         self.roster: typing.Tuple[str, ...] = ()
@@ -93,5 +107,6 @@ class _MainWorkbook(_BaseWorkBook):
     def __exit__(self, *exc):
         if self._workbook is not None:
             _MODULE_LOGGER.info("Saving changes to main workbook")
+            self._workbook.Save()
             self._workbook.Close()
         self._workbook = None
