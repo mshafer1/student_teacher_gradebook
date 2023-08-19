@@ -68,7 +68,7 @@ def _assert_excel_data_in_dir(dir: pathlib.Path, snapshot: pytest_snapshot.plugi
 @pytest.mark.parametrize(
     ["roster"],
     [
-        # pytest.param([]),
+        pytest.param([]),
         pytest.param(["John Doe", "Molly Doe", "Stephen Jane"], id="roster1"),
     ],
 )

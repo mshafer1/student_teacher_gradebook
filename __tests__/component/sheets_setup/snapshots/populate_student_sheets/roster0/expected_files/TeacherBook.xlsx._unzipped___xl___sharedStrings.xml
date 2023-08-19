@@ -19,9 +19,6 @@
 		<t>studentTemplate.xlsx</t>
 	</si>
 	<si>
-		<t>Mus476_{Student}_gradebook.xlsx</t>
-	</si>
-	<si>
 		<t>ID</t>
 	</si>
 	<si>
@@ -29,5 +26,8 @@
 	</si>
 	<si>
 		<t>Student Filename Format String:</t>
+	</si>
+	<si>
+		<t>Mus476_{name}_gradebook.xlsx</t>
 	</si>
 </sst>
