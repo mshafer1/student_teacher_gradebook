@@ -12,6 +12,7 @@ _MODULE_LOGGER = logging.getLogger(__name__)
 def _cli():
     ...
 
+
 @_cli.command()
 def update_student_sheets():
     """Update students' sheets."""
@@ -22,7 +23,9 @@ def update_student_sheets():
 def populate_student_sheets():
     """Generate students' sheets from template."""
     _MODULE_LOGGER.info("Loading main workbook...")
-    with student_teacher_gradebook._MainWorkbook(student_teacher_gradebook._config.TEACHER_BOOK) as main_workbook:
+    with student_teacher_gradebook._MainWorkbook(
+        student_teacher_gradebook._config.TEACHER_BOOK
+    ) as main_workbook:
         ...
         # title_stem = "MUSC184_F21 Progress tracking sheet for "
         # template_filename = main_workbook.progress_sheet[
@@ -56,7 +59,6 @@ def populate_student_sheets():
         #     )
 
         #     main_workbook.set_workbook(i, student_workbook)
-
 
 
 if __name__ == "__main__":

@@ -1,5 +1,3 @@
-
-
 import logging
 import pathlib
 import typing
@@ -12,12 +10,15 @@ _MODULE_LOGGER = logging.getLogger(__name__)
 _MODULE_LOGGER.addHandler(logging.NullHandler())
 _StrOrPath = typing.Union[str, pathlib.Path]
 
+
 class _VBA_Consts:
     xlUp = -4162
+
 
 class _BaseWorkBook:
     def __init__(self, path: _StrOrPath) -> None:
         self._path = pathlib.Path(path).resolve()
+
 
 def _openWorkbook(xlapp, xlfile):
     """from https://stackoverflow.com/a/39880844/8100990"""
