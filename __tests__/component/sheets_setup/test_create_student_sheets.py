@@ -35,4 +35,4 @@ def test____teacher_book_with_roster___populate_student_sheets___creates_expecte
     snapshot.snapshot_dir = (
         MODULE_DIR / "snapshots/populate_student_sheets" / request.node.callspec.id
     )
-    __tests__._utils._assert_excel_data_in_dir(output_dir, snapshot)
+    __tests__._utils.assert_excel_data_in_dir(output_dir, snapshot)

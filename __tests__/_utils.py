@@ -8,7 +8,12 @@ import pytest_snapshot.plugin
 import click.testing
 import xml.dom.minidom
 
+from __tests__ import conftest
+import student_teacher_gradebook
+
 RUNNER_TYPE = typing.Callable[[typing.List[str]], click.testing.Result]
+""" Type hint that specifies the result from `console_runner`, see link below. """
+_ = conftest.console_runner
 
 
 
@@ -20,9 +25,10 @@ def _pretty_xml(file: pathlib.Path):
     result = data.toprettyxml()
     for remove, insert in [
         (re.escape(str(pathlib.Path(".").resolve())), "{cwd}"),
-        (r"\<xr:revisionPtr.+?/\>", "<revision value=redacted/>"),
+        (re.escape(str( student_teacher_gradebook._config._MODULE_DIR )), "{source_dir}"),
+        (r"\<xr:revisionPtr.+?/\>", '<revision value="redacted"/>'),
     ]:
-        result = re.sub(remove, insert, result)
+        result = re.sub(remove, insert, result, flags=re.IGNORECASE)
     return result
 
 
@@ -43,7 +49,7 @@ def _filter_ignore_files(files: typing.Iterable[pathlib.Path], root: pathlib.Pat
     return result
 
 
-def _assert_excel_data_in_dir(dir: pathlib.Path, snapshot: pytest_snapshot.plugin.Snapshot):
+def assert_excel_data_in_dir(dir: pathlib.Path, snapshot: pytest_snapshot.plugin.Snapshot):
     excel_files = dir.rglob("*.xlsx")
     data = {}
     for file in excel_files:
