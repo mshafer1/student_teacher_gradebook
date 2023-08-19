@@ -1,5 +1,6 @@
 import logging
 import pathlib
+
 import click
 
 import student_teacher_gradebook
@@ -26,7 +27,8 @@ def populate_student_sheets():
     with student_teacher_gradebook._MainWorkbook(
         student_teacher_gradebook._config.TEACHER_BOOK
     ) as main_workbook:
-        ...
+        for student in main_workbook.roster:
+            print(student)
         # title_stem = "MUSC184_F21 Progress tracking sheet for "
         # template_filename = main_workbook.progress_sheet[
         #     grades_sheet_manager._consts.TEMPLATE_SHEET_LOCATION
