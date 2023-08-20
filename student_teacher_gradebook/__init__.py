@@ -1,5 +1,6 @@
 """Utility for cloning student grades from a single teacher's workbook to one workbook per student."""  # noqa: W505
 import contextlib
+import datetime
 import hashlib
 import logging
 import pathlib
@@ -239,7 +240,7 @@ class MainWorkbook(_BaseWorkBook):
         ):
             data = row[:3]
             if data[0] is None:
-                data[0] = hashlib.md5(data[1].encode("UTF-8")).hexdigest()[:8]
+                data[0] = hashlib.md5((datetime.datetime.now().isoformat() + "-" + data[1]).encode("UTF-8")).hexdigest()[:8]
             roster.append(StudentData(*data))
 
         self._roster = tuple(roster)
