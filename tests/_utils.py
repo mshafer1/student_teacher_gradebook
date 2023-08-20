@@ -1,4 +1,6 @@
+import csv
 import fnmatch
+import io
 import pathlib
 import re
 import typing
@@ -70,4 +72,15 @@ def assert_excel_data_in_dir(dir: pathlib.Path, snapshot: pytest_snapshot.plugin
                 if data_file.is_file()
             }
         )
+        wb = student_teacher_gradebook._BaseWorkBook(file)
+        try:
+            wb.open()
+            for sheet in wb.worksheet_names():
+                stream = io.StringIO()
+                writer = csv.writer(stream)
+                for row in wb.get_cells_value_range(sheet, 1, "A"):
+                    writer.writerow(row)
+                data[file.stem + f"_as_csv__{sheet}.csv"] = stream.getvalue().encode("UTF-8")
+        finally:
+            wb.close()
     snapshot.assert_match_dir(data, "expected_files")
