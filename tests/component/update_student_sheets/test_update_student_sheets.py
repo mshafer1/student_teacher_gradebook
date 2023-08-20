@@ -34,7 +34,6 @@ def test____teacher_book_with_roster___update_student_sheets___expected_spreadsh
     temp_cwd: pathlib.Path,
     console_runner: tests._utils.RUNNER_TYPE,
     snapshot: pytest_snapshot.plugin.Snapshot,
-    request,
 ):
     result = console_runner("update-student-sheets")
 
