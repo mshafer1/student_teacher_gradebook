@@ -89,6 +89,9 @@ class _BaseWorkBook:
 
     def save(self):
         self._workbook.Save()
+    
+    def close(self):
+        self._workbook.Close()
 
     @_workbook_must_be_opened
     def set_column_range(
@@ -308,6 +311,6 @@ class MainWorkbook(_BaseWorkBook):
         """After context, save and close workbook."""
         if self._workbook is not None:
             _MODULE_LOGGER.info("Saving changes to main workbook")
-            self._workbook.Save()
-            self._workbook.Close()
+            self.save()
+            self.close()
         self._workbook = None
