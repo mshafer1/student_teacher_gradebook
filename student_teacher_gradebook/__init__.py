@@ -89,7 +89,7 @@ class _BaseWorkBook:
 
     def save(self):
         self._workbook.Save()
-    
+
     def close(self):
         self._workbook.Close()
 
