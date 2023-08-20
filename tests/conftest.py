@@ -5,8 +5,8 @@ import pathlib
 import shutil
 
 import click.testing
-import pytest
 import freezegun.api
+import pytest
 from pytest_mock.plugin import MockerFixture
 
 import student_teacher_gradebook
@@ -21,7 +21,9 @@ def temp_cwd(monkeypatch: pytest.MonkeyPatch, tmp_path: pathlib.Path):
 
 
 @pytest.fixture()
-def temp_teacher_workbook(temp_cwd: pathlib.Path, tmp_path: pathlib.Path, mocker: MockerFixture, fixed_datetime):
+def temp_teacher_workbook(
+    temp_cwd: pathlib.Path, tmp_path: pathlib.Path, mocker: MockerFixture, fixed_datetime
+):
     """Copy the source workbook to tmp_path, set cwd, and patch the config to use this."""
     source = student_teacher_gradebook._config.TEACHER_BOOK
     shutil.copy2(source, tmp_path)
@@ -55,6 +57,9 @@ def console_runner():
     )
     return main
 
+
 @pytest.fixture
 def fixed_datetime(freezer: freezegun.api.FrozenDateTimeFactory):
+    """Wrap the freezer fixture with a default time (01-01-2000 00:00)."""
     freezer.move_to(datetime.datetime(2000, 1, 1))
+    yield freezer
