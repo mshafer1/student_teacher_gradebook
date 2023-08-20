@@ -25,6 +25,7 @@ def _pretty_xml(file: pathlib.Path):
         (re.escape(str(pathlib.Path(".").resolve())), "{cwd}"),
         (re.escape(str(student_teacher_gradebook._config._MODULE_DIR)), "{source_dir}"),
         (r"\<xr:revisionPtr.+?/\>", '<revision value="redacted"/>'),
+        (r'xr:uid=".+?"', 'xr:uid="do_not_care"'),
     ]:
         result = re.sub(remove, insert, result, flags=re.IGNORECASE)
     return result
