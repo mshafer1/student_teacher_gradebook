@@ -19,8 +19,11 @@ _ = conftest.console_runner
 
 
 def _pretty_xml(file: pathlib.Path):
-    with file.open("r", encoding="UTF-8") as fin:
-        data = xml.dom.minidom.parse(fin)
+    with file.open("r", encoding="UTF-8", errors="ignore") as fin:
+        try:
+            data = xml.dom.minidom.parse(fin)
+        except Exception as e:
+            return None
 
     result = data.toprettyxml()
     for remove, insert in [
@@ -61,17 +64,17 @@ def assert_excel_data_in_dir(dir: pathlib.Path, snapshot: pytest_snapshot.plugin
         unzipped_dir = file.parent / f"{file.name}._unzipped"
         with zipfile.ZipFile(file) as fin:
             fin.extractall(unzipped_dir)
-        data.update(
-            **{
-                data_file.relative_to(unzipped_dir.parent)
-                .as_posix()
-                .replace("/", "___"): _pretty_xml(data_file)
-                for data_file in _filter_ignore_files(
+        for data_file in _filter_ignore_files(
                     (file.parent / f"{file.name}._unzipped").rglob("*"), root=unzipped_dir
-                )
-                if data_file.is_file()
-            }
-        )
+                ):
+            if not data_file.is_file():
+                continue
+            value = _pretty_xml(data_file)
+            if value is None:
+                continue
+            data[data_file.relative_to(unzipped_dir.parent)
+                .as_posix()
+                .replace("/", "___")] = value
         wb = student_teacher_gradebook._BaseWorkBook(file)
         try:
             wb.open()

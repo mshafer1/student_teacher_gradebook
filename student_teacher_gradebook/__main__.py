@@ -41,7 +41,10 @@ def update_student_sheets():
             with main_workbook.open_student_workbook(student) as student_book:
                 temp_new_sheet_name = "Progress_new"
                 sheet_name = "Progress"
-                student_book.copy_sheet_from(student_teacher_gradebook._config.STUDENT_TEMPLATE.resolve(), new_name=temp_new_sheet_name)
+                student_book.copy_sheet_from(
+                    student_teacher_gradebook._config.STUDENT_TEMPLATE.resolve(),
+                    new_name=temp_new_sheet_name,
+                )
                 # student_book.add_sheet(temp_new_sheet_name)
                 for sheet in student_book.worksheet_names():
                     if sheet == temp_new_sheet_name:
@@ -50,7 +53,12 @@ def update_student_sheets():
                 student_book.rename_sheet(temp_new_sheet_name, sheet_name)
                 for i, value in enumerate(data):
                     student_book.set_row_range(
-                        sheet_name=sheet_name, start_column_index="A", row_index=1 + i, values=value
+                        sheet_name=sheet_name,
+                        start_column_index="A",
+                        row_index=student_teacher_gradebook.EXCEL_FIRST_ROW_OF_DATA
+                        + i
+                        + (main_workbook.config.skip_n_rows_when_copying_student_data or 0),
+                        values=value,
                     )
                 student_book.save()
 

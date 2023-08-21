@@ -20,6 +20,7 @@ def temp_cwd(monkeypatch: pytest.MonkeyPatch, tmp_path: pathlib.Path):
     monkeypatch.chdir(str(tmp_path))
     yield tmp_path
 
+
 @pytest.fixture(autouse=True)
 def use_source_dir(monkeypatch: pytest.MonkeyPatch):
     # source_dir = student_teacher_gradebook._config.MODULE_DIR / "source"
@@ -32,7 +33,6 @@ def use_source_dir(monkeypatch: pytest.MonkeyPatch):
     importlib.reload(student_teacher_gradebook._config)
     yield source_dir
 
-    
 
 @pytest.fixture()
 def temp_teacher_workbook(

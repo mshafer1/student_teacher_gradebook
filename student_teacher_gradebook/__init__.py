@@ -14,7 +14,7 @@ _MODULE_LOGGER = logging.getLogger(__name__)
 _MODULE_LOGGER.addHandler(logging.NullHandler())
 _StrOrPath = typing.Union[str, pathlib.Path]
 
-_EXCEL_FIRST_ROW_OF_DATA = 1
+EXCEL_FIRST_ROW_OF_DATA = 1
 _TABLE_OFFSET = 1
 
 
@@ -152,7 +152,9 @@ class _BaseWorkBook:
         self._workbook.Sheets(worksheet_name).Delete()
 
     @_workbook_must_be_opened
-    def copy_sheet_from(self, source_workbook: pathlib.Path, sheet_index=1, *_, new_name="progress_new"):
+    def copy_sheet_from(
+        self, source_workbook: pathlib.Path, sheet_index=1, *_, new_name="progress_new"
+    ):
         _temp_workbook = self._open_workbook(self._app, str(source_workbook))
         try:
             _temp_workbook.Sheets(sheet_index).Name = new_name
@@ -183,6 +185,7 @@ class Config(typing.NamedTuple):
 
     student_template_filename: str
     student_filename_format_string: str
+    skip_n_rows_when_copying_student_data: typing.Optional[str] = None
 
 
 class StudentData(typing.NamedTuple):
@@ -293,7 +296,7 @@ class MainWorkbook(_BaseWorkBook):
         self.set_row_range(
             _config.ROSTER_SHEET_NAME,
             "A",
-            student_index + _EXCEL_FIRST_ROW_OF_DATA + _TABLE_OFFSET,
+            student_index + EXCEL_FIRST_ROW_OF_DATA + _TABLE_OFFSET,
             student,
         )
         self._load_roster()

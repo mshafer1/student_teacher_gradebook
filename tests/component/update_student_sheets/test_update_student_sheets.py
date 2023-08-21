@@ -11,7 +11,7 @@ MODULE_DIR = pathlib.Path(__file__).parent
 TEST_CASE_DIR = MODULE_DIR / "test_cases"
 
 
-@pytest.fixture(params=[item for item in TEST_CASE_DIR.iterdir() if item.is_dir()])
+@pytest.fixture(params=[item for item in TEST_CASE_DIR.iterdir() if item.is_dir()], ids=lambda o: o.name)
 def test_case(request):
     return request.param
 
@@ -29,7 +29,7 @@ def test_case_with_temp_cwd(test_case: pathlib.Path, temp_cwd: pathlib.Path):
     student_teacher_gradebook._config.TEACHER_BOOK = old_value
 
 
-def test____teacher_book_with_roster___update_student_sheets___expected_spreadsheets_out(
+def test____update_student_sheets___component(
     test_case_with_temp_cwd: pathlib.Path,
     temp_cwd: pathlib.Path,
     console_runner: tests._utils.RUNNER_TYPE,
