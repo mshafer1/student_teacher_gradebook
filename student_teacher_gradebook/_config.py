@@ -6,7 +6,7 @@ from decouple import config
 _MODULE_DIR = pathlib.Path(__file__).parent
 SOURCE_DIR: pathlib.Path = config(
     "STUDENT_TEACHER_GRADEBOOK__SOURCE_DIR",
-    default=_MODULE_DIR / "../source",
+    default=".",
     cast=pathlib.Path,
 )
 
