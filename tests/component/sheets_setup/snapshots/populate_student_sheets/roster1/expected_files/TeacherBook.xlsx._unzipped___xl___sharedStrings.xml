@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="19" uniqueCount="19">
+<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="20" uniqueCount="20">
 	<si>
 		<t>Student</t>
 	</si>
@@ -29,6 +29,9 @@
 	</si>
 	<si>
 		<t>Mus476_{name}_gradebook.xlsx</t>
+	</si>
+	<si>
+		<t>Skip n rows when copying student data:</t>
 	</si>
 	<si>
 		<t>John Doe</t>
