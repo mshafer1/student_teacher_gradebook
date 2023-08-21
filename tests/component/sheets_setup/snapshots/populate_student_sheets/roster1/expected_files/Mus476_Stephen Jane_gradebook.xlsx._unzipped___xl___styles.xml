@@ -42,7 +42,38 @@
 	<cellStyles count="1">
 		<cellStyle name="Normal" xfId="0" builtinId="0"/>
 	</cellStyles>
-	<dxfs count="0"/>
+	<dxfs count="3">
+		<dxf>
+			<font>
+				<color rgb="FF9C0006"/>
+			</font>
+			<fill>
+				<patternFill>
+					<bgColor rgb="FFFFC7CE"/>
+				</patternFill>
+			</fill>
+		</dxf>
+		<dxf>
+			<font>
+				<color rgb="FF006100"/>
+			</font>
+			<fill>
+				<patternFill>
+					<bgColor rgb="FFC6EFCE"/>
+				</patternFill>
+			</fill>
+		</dxf>
+		<dxf>
+			<font>
+				<color rgb="FF9C0006"/>
+			</font>
+			<fill>
+				<patternFill>
+					<bgColor rgb="FFFFC7CE"/>
+				</patternFill>
+			</fill>
+		</dxf>
+	</dxfs>
 	<tableStyles count="0" defaultTableStyle="TableStyleMedium2" defaultPivotStyle="PivotStyleLight16"/>
 	<extLst>
 		<ext xmlns:x14="http://schemas.microsoft.com/office/spreadsheetml/2009/9/main" uri="{EB79DEF2-80B8-43e5-95BD-54CBDDF9020C}">

@@ -3,7 +3,8 @@
 	<dimension ref="A1:D2"/>
 	<sheetViews>
 		<sheetView tabSelected="1" workbookViewId="0">
-			<selection sqref="A1:XFD1"/>
+			<pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/>
+			<selection pane="bottomLeft" activeCell="B2" sqref="B2"/>
 		</sheetView>
 	</sheetViews>
 	<sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25"/>
@@ -34,5 +35,13 @@
 			</c>
 		</row>
 	</sheetData>
+	<conditionalFormatting sqref="B2">
+		<cfRule type="containsText" dxfId="1" priority="1" operator="containsText" text="P">
+			<formula>NOT(ISERROR(SEARCH(&quot;P&quot;,B2)))</formula>
+		</cfRule>
+		<cfRule type="containsText" dxfId="0" priority="2" operator="containsText" text="N">
+			<formula>NOT(ISERROR(SEARCH(&quot;N&quot;,B2)))</formula>
+		</cfRule>
+	</conditionalFormatting>
 	<pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>
 </worksheet>
