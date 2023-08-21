@@ -1,6 +1,7 @@
 """pytest setup config."""
 import datetime
 import functools
+import importlib
 import pathlib
 import shutil
 
@@ -19,10 +20,23 @@ def temp_cwd(monkeypatch: pytest.MonkeyPatch, tmp_path: pathlib.Path):
     monkeypatch.chdir(str(tmp_path))
     yield tmp_path
 
+@pytest.fixture(autouse=True)
+def use_source_dir(monkeypatch: pytest.MonkeyPatch):
+    # source_dir = student_teacher_gradebook._config.MODULE_DIR / "source"
+    # old_value = student_teacher_gradebook._config.SOURCE_DIR
+    # student_teacher_gradebook._config.SOURCE_DIR = source_dir.resolve()
+    # yield source_dir
+    # student_teacher_gradebook._config.SOURCE_DIR = old_value
+    source_dir = student_teacher_gradebook._config.MODULE_DIR / "../source"
+    monkeypatch.setenv("STUDENT_TEACHER_GRADEBOOK__SOURCE_DIR", str(source_dir))
+    importlib.reload(student_teacher_gradebook._config)
+    yield source_dir
+
+    
 
 @pytest.fixture()
 def temp_teacher_workbook(
-    temp_cwd: pathlib.Path, tmp_path: pathlib.Path, mocker: MockerFixture, fixed_datetime
+    temp_cwd: pathlib.Path, tmp_path: pathlib.Path, fixed_datetime, use_source_dir
 ):
     """Copy the source workbook to tmp_path, set cwd, and patch the config to use this."""
     source = student_teacher_gradebook._config.TEACHER_BOOK

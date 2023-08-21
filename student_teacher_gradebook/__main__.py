@@ -41,7 +41,8 @@ def update_student_sheets():
             with main_workbook.open_student_workbook(student) as student_book:
                 temp_new_sheet_name = "Progress_new"
                 sheet_name = "Progress"
-                student_book.add_sheet(temp_new_sheet_name)
+                student_book.copy_sheet_from(student_teacher_gradebook._config.STUDENT_TEMPLATE.resolve(), new_name=temp_new_sheet_name)
+                # student_book.add_sheet(temp_new_sheet_name)
                 for sheet in student_book.worksheet_names():
                     if sheet == temp_new_sheet_name:
                         continue

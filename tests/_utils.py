@@ -25,7 +25,7 @@ def _pretty_xml(file: pathlib.Path):
     result = data.toprettyxml()
     for remove, insert in [
         (re.escape(str(pathlib.Path(".").resolve())), "{cwd}"),
-        (re.escape(str(student_teacher_gradebook._config._MODULE_DIR)), "{source_dir}"),
+        (re.escape(str(student_teacher_gradebook._config.MODULE_DIR)), "{source_dir}"),
         (r"\<xr:revisionPtr.+?/\>", '<revision value="redacted"/>'),
         (r'xr:uid=".+?"', 'xr:uid="do_not_care"'),
     ]:

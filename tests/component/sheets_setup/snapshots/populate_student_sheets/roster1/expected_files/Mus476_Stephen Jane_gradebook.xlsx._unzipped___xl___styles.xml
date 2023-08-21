@@ -9,12 +9,18 @@
 			<scheme val="minor"/>
 		</font>
 	</fonts>
-	<fills count="2">
+	<fills count="3">
 		<fill>
 			<patternFill patternType="none"/>
 		</fill>
 		<fill>
 			<patternFill patternType="gray125"/>
+		</fill>
+		<fill>
+			<patternFill patternType="solid">
+				<fgColor theme="4"/>
+				<bgColor indexed="64"/>
+			</patternFill>
 		</fill>
 	</fills>
 	<borders count="1">
@@ -29,8 +35,9 @@
 	<cellStyleXfs count="1">
 		<xf numFmtId="0" fontId="0" fillId="0" borderId="0"/>
 	</cellStyleXfs>
-	<cellXfs count="1">
+	<cellXfs count="2">
 		<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>
+		<xf numFmtId="0" fontId="0" fillId="2" borderId="0" xfId="0" applyFill="1"/>
 	</cellXfs>
 	<cellStyles count="1">
 		<cellStyle name="Normal" xfId="0" builtinId="0"/>

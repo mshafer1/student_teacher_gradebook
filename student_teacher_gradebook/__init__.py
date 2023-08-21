@@ -152,6 +152,15 @@ class _BaseWorkBook:
         self._workbook.Sheets(worksheet_name).Delete()
 
     @_workbook_must_be_opened
+    def copy_sheet_from(self, source_workbook: pathlib.Path, sheet_index=1, *_, new_name="progress_new"):
+        _temp_workbook = self._open_workbook(self._app, str(source_workbook))
+        try:
+            _temp_workbook.Sheets(sheet_index).Name = new_name
+            _temp_workbook.Sheets(sheet_index).Copy(Before=self._workbook.Sheets(1))
+        finally:
+            _temp_workbook.Close(SaveChanges=False)
+
+    @_workbook_must_be_opened
     def add_sheet(self, worksheet_name: str):
         self._workbook.Sheets.Add().Name = worksheet_name
 
