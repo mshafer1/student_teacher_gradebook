@@ -11,7 +11,9 @@ MODULE_DIR = pathlib.Path(__file__).parent
 TEST_CASE_DIR = MODULE_DIR / "test_cases"
 
 
-@pytest.fixture(params=[item for item in TEST_CASE_DIR.iterdir() if item.is_dir()], ids=lambda o: o.name)
+@pytest.fixture(
+    params=[item for item in TEST_CASE_DIR.iterdir() if item.is_dir()], ids=lambda o: o.name
+)
 def test_case(request):
     return request.param
 

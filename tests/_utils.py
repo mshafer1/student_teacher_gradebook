@@ -65,16 +65,14 @@ def assert_excel_data_in_dir(dir: pathlib.Path, snapshot: pytest_snapshot.plugin
         with zipfile.ZipFile(file) as fin:
             fin.extractall(unzipped_dir)
         for data_file in _filter_ignore_files(
-                    (file.parent / f"{file.name}._unzipped").rglob("*"), root=unzipped_dir
-                ):
+            (file.parent / f"{file.name}._unzipped").rglob("*"), root=unzipped_dir
+        ):
             if not data_file.is_file():
                 continue
             value = _pretty_xml(data_file)
             if value is None:
                 continue
-            data[data_file.relative_to(unzipped_dir.parent)
-                .as_posix()
-                .replace("/", "___")] = value
+            data[data_file.relative_to(unzipped_dir.parent).as_posix().replace("/", "___")] = value
         wb = student_teacher_gradebook._BaseWorkBook(file)
         try:
             wb.open()
