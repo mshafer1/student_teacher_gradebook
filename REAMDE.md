@@ -10,10 +10,60 @@ This is a utility script (written in Python) that allows a teacher to track all 
 
 * Python 3.8 or higher
 
+# Installation
+
+Option 1:
+<details open>
+<summary>With <a href="">pipx</a></summary>
+
+`pipx install git+https://github.com/mshafer1/student_teacher_gradebook.git`
+</details>
+
+Option 2:
+<details>
+<summary>From source (with <a href="https://python-poetry.org/">poetry</a>)</summary>
+
+```
+git clone https://github.com/mshafer1/student_teacher_gradebook.git
+
+cd student_teacher_gradebook
+
+poetry install
+```
+</details>
+
+Option 3:
+<details>
+<summary>From source (with self managed venv)</summary>
+
+```
+git clone https://github.com/mshafer1/student_teacher_gradebook.git
+
+cd student_teacher_gradebook
+
+poetry install
+```
+</details>
+
+# Source files
+
+Example `TeacherBook.xlsx` and example `studentTemplate.xlsx` are available in the `source` directory.
+
+When executed, `student-teacher-gradebook` loads configuration from the `Config` sheet and uses the `Roster` sheet for tracking sutdent sheets.
+
+To setup:
+* Fill out the `Roster` sheet with names of students (leave the workbook section alone).
+* Edit/Adjust the variables in `Config` sheet as needed
+* Run `student-teacher-gradebook populate-student-sheets` to generate student sheets and have them added to `Roster`
+
 
 # Usage
 
-## `populate-student-sheets`
+When running a script, it will look in the current working directory for TeacherBook.xlsx.
+
+This module provides the following scripts:
+
+## `student-teacher-gradebook populate-student-sheets`
 
 Reads the `Roster` sheet and copies the student template for each student listed.
 
@@ -39,6 +89,7 @@ The location of the student workbook is determined by:
 For each sheet (other than `Config` and `Roster`), for which a student has their name occur in the first column AND at least one non-empty cell in their row, a corresponding row is created in the student sheet with the name of the teacher's sheet replacing their name.
 
 Student sheets are generated fresh each run (removing all other sheets in the student workbook).
+
 
 
 # Known issues
