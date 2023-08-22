@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="20" uniqueCount="20">
+	<si>
+		<t>Student</t>
+	</si>
+	<si>
+		<t>Workbook</t>
+	</si>
+	<si>
+		<t>Whatever</t>
+	</si>
+	<si>
+		<t>other</t>
+	</si>
+	<si>
+		<t>data</t>
+	</si>
+	<si>
+		<t>studentTemplate.xlsx</t>
+	</si>
+	<si>
+		<t>ID</t>
+	</si>
+	<si>
+		<t>Student Template Filename:</t>
+	</si>
+	<si>
+		<t>Student Filename Format String:</t>
+	</si>
+	<si>
+		<t>Mus476_{name}_gradebook.xlsx</t>
+	</si>
+	<si>
+		<t>Skip n rows when copying student data:</t>
+	</si>
+	<si>
+		<t>John Doe</t>
+	</si>
+	<si>
+		<t>Molly Doe</t>
+	</si>
+	<si>
+		<t>Stephen Jane</t>
+	</si>
+	<si>
+		<t>4b6e21e7</t>
+	</si>
+	<si>
+		<t>Mus476_John Doe_gradebook.xlsx</t>
+	</si>
+	<si>
+		<t>bf2063c8</t>
+	</si>
+	<si>
+		<t>Mus476_Molly Doe_gradebook.xlsx</t>
+	</si>
+	<si>
+		<t>579e9752</t>
+	</si>
+	<si>
+		<t>Mus476_Stephen Jane_gradebook.xlsx</t>
+	</si>
+</sst>
