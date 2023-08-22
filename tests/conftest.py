@@ -8,7 +8,6 @@ import shutil
 import click.testing
 import freezegun.api
 import pytest
-from pytest_mock.plugin import MockerFixture
 
 import student_teacher_gradebook
 import student_teacher_gradebook.__main__
@@ -23,6 +22,7 @@ def temp_cwd(monkeypatch: pytest.MonkeyPatch, tmp_path: pathlib.Path):
 
 @pytest.fixture(autouse=True)
 def use_source_dir(monkeypatch: pytest.MonkeyPatch):
+    """Use the module source dir."""
     # source_dir = student_teacher_gradebook._config.MODULE_DIR / "source"
     # old_value = student_teacher_gradebook._config.SOURCE_DIR
     # student_teacher_gradebook._config.SOURCE_DIR = source_dir.resolve()

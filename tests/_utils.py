@@ -22,7 +22,7 @@ def _pretty_xml(file: pathlib.Path):
     with file.open("r", encoding="UTF-8", errors="ignore") as fin:
         try:
             data = xml.dom.minidom.parse(fin)
-        except Exception as e:
+        except Exception:
             return None
 
     result = data.toprettyxml()
