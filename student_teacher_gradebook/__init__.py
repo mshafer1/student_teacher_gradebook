@@ -149,7 +149,11 @@ class _BaseWorkBook:
 
     @_workbook_must_be_opened
     def remove_sheet(self, worksheet_name: str):
-        self._workbook.Sheets(worksheet_name).Delete()
+        self._app.DisplayAlerts = False
+        try:
+            self._workbook.Sheets(worksheet_name).Delete()
+        finally:
+            self._app.DisplayAlerts = True
 
     @_workbook_must_be_opened
     def copy_sheet_from(

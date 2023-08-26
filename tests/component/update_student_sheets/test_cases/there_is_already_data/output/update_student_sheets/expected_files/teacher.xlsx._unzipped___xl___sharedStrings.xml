@@ -1,0 +1,75 @@
+<?xml version="1.0" ?>
+<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="38" uniqueCount="24">
+	<si>
+		<t>Student</t>
+	</si>
+	<si>
+		<t>Workbook</t>
+	</si>
+	<si>
+		<t>Whatever</t>
+	</si>
+	<si>
+		<t>other</t>
+	</si>
+	<si>
+		<t>data</t>
+	</si>
+	<si>
+		<t>studentTemplate.xlsx</t>
+	</si>
+	<si>
+		<t>ID</t>
+	</si>
+	<si>
+		<t>Student Template Filename:</t>
+	</si>
+	<si>
+		<t>Student Filename Format String:</t>
+	</si>
+	<si>
+		<t>Mus476_{name}_gradebook.xlsx</t>
+	</si>
+	<si>
+		<t>John Doe</t>
+	</si>
+	<si>
+		<t>Molly Doe</t>
+	</si>
+	<si>
+		<t>Stephen Jane</t>
+	</si>
+	<si>
+		<t>4c2a904b</t>
+	</si>
+	<si>
+		<t>Mus476_John Doe_gradebook.xlsx</t>
+	</si>
+	<si>
+		<t>b7b5a7e9</t>
+	</si>
+	<si>
+		<t>Mus476_Molly Doe_gradebook.xlsx</t>
+	</si>
+	<si>
+		<t>9e2aaa00</t>
+	</si>
+	<si>
+		<t>Mus476_Stephen Jane_gradebook.xlsx</t>
+	</si>
+	<si>
+		<t>Skip n Rows When Copying Student data:</t>
+	</si>
+	<si>
+		<t>P</t>
+	</si>
+	<si>
+		<t>foo</t>
+	</si>
+	<si>
+		<t>alsdkjfalkfj</t>
+	</si>
+	<si>
+		<t>NP</t>
+	</si>
+</sst>

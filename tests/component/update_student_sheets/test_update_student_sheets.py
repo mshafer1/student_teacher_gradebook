@@ -31,11 +31,17 @@ def test_case_with_temp_cwd(test_case: pathlib.Path, temp_cwd: pathlib.Path):
     student_teacher_gradebook._config.TEACHER_BOOK = old_value
 
 
+@pytest.fixture()
+def test_id_as_file(temp_cwd: pathlib.Path, request):
+    (temp_cwd / request.node.callspec.id).touch()
+
+
 def test____update_student_sheets___component(
     test_case_with_temp_cwd: pathlib.Path,
     temp_cwd: pathlib.Path,
     console_runner: tests._utils.RUNNER_TYPE,
     snapshot: pytest_snapshot.plugin.Snapshot,
+    test_id_as_file,
 ):
     result = console_runner("update-student-sheets")
 
