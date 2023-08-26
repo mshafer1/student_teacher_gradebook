@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "student-teacher-gradebook"
-version = "0.1.0"
+version = "0.1.1"
 description = "utility for a teacher to push grade information to student workbooks"
 authors = ["mshafer1"]
 license = "MIT"
