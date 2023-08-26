@@ -9,13 +9,15 @@
 	</mc:AlternateContent>
 	<revision value="redacted"/>
 	<bookViews>
-		<workbookView xWindow="-120" yWindow="-120" windowWidth="24240" windowHeight="13020" xr2:uid="{1C66C71B-6ED8-4699-9FB2-CB3156D48D4F}"/>
+		<workbookView xWindow="-120" yWindow="-120" windowWidth="24240" windowHeight="13020" activeTab="5" xr2:uid="{1C66C71B-6ED8-4699-9FB2-CB3156D48D4F}"/>
 	</bookViews>
 	<sheets>
 		<sheet name="Config" sheetId="4" r:id="rId1"/>
 		<sheet name="Roster" sheetId="1" r:id="rId2"/>
 		<sheet name="Quiz 1" sheetId="2" r:id="rId3"/>
 		<sheet name="Assignment 2" sheetId="3" r:id="rId4"/>
+		<sheet name="Make Up Quiz 1" sheetId="5" r:id="rId5"/>
+		<sheet name="Quiz 3" sheetId="6" r:id="rId6"/>
 	</sheets>
 	<calcPr calcId="191029"/>
 	<extLst>
