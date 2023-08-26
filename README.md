@@ -17,6 +17,8 @@ Option 1:
 <summary>With <a href="">pipx</a></summary>
 
 `pipx install git+https://github.com/mshafer1/student_teacher_gradebook.git`
+
+**NOTE**: Using this method will require that Git setting for long-paths is enable<sup>[1]</sup>
 </details>
 
 Option 2:
@@ -30,6 +32,8 @@ cd student_teacher_gradebook
 
 poetry install
 ```
+
+**NOTE**: Using this method will require that Git setting for long-paths is enable<sup>[1]</sup>
 </details>
 
 Option 3:
@@ -43,6 +47,7 @@ cd student_teacher_gradebook
 
 poetry install
 ```
+**NOTE**: Using this method will require that Git setting for long-paths is enable<sup>[1]</sup>
 </details>
 
 # Source files
@@ -97,3 +102,5 @@ Student sheets are generated fresh each run (removing all other sheets in the st
 * Excel formatting values as dates
 
   Due to how Excel accepts values in, values like `8/10` copied from the teacher sheet to the student sheet may render as "10-Oct"
+
+[1]: https://stackoverflow.com/a/59052951/8100990 "Git for Windows enable long paths within Git."
