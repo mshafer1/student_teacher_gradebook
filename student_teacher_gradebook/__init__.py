@@ -6,6 +6,7 @@ import logging
 import pathlib
 import typing
 
+import win32com
 import win32com.client as win32
 
 from student_teacher_gradebook import _config
@@ -16,6 +17,10 @@ _StrOrPath = typing.Union[str, pathlib.Path]
 
 EXCEL_FIRST_ROW_OF_DATA = 1
 _TABLE_OFFSET = 1
+
+
+def _get_win32com_cache_path():
+    return pathlib.Path(win32com.__gen_path__)
 
 
 class _VBA_Consts:  # noqa: N801

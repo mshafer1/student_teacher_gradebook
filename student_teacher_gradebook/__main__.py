@@ -108,5 +108,12 @@ def populate_student_sheets():
                 main_workbook.update_student_values(i, new_student_data)
 
 
+@_cli.command()
+def clear_win32_cache():
+    """Clear win32 generator cache path."""
+    path = student_teacher_gradebook._get_win32com_cache_path()
+    shutil.rmtree(path)
+
+
 if __name__ == "__main__":
     _cli()

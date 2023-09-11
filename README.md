@@ -95,7 +95,9 @@ For each sheet (other than `Config` and `Roster`), for which a student has their
 
 Student sheets are generated fresh each run (removing all other sheets in the student workbook).
 
+## `clear-win32-cache`
 
+Apparently, win32com (what this script uses to talk to Excel), [occasionally has problems with loading the Excel interface](https://stackoverflow.com/a/54422675/8100990). The workaround that has been found is to delete the cache folder that win32com uses to store adapter code. To make this simple to do on occasion, this sub-command performs this process.
 
 # Known issues
 
