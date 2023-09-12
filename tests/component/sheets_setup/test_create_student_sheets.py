@@ -11,6 +11,7 @@ import tests._utils
 MODULE_DIR = pathlib.Path(__file__).parent
 TEST_CASE_DIR = MODULE_DIR / "test_cases"
 
+
 @pytest.mark.parametrize(
     ["roster"],
     [
@@ -63,6 +64,7 @@ def test_case_with_temp_cwd(test_case: pathlib.Path, temp_cwd: pathlib.Path):
 @pytest.fixture()
 def test_id_as_file(temp_cwd: pathlib.Path, request):
     (temp_cwd / request.node.callspec.id).touch()
+
 
 def test____populate_student_sheets___expected_sheets(
     test_case_with_temp_cwd: pathlib.Path,
