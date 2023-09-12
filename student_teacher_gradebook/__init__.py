@@ -260,6 +260,8 @@ class MainWorkbook(_BaseWorkBook):
             _config.ROSTER_SHEET_NAME, start_row_index=2, column_index="A"
         ):
             data = row[:3]
+            if data[1] is None:
+                continue
             if data[0] is None:
                 data[0] = hashlib.md5(
                     (datetime.datetime.now().isoformat() + "-" + data[1]).encode("UTF-8")
