@@ -3,8 +3,8 @@
 	<sheetPr codeName="Sheet3"/>
 	<dimension ref="A1:D3"/>
 	<sheetViews>
-		<sheetView workbookViewId="0">
-			<selection activeCell="B2" sqref="B2"/>
+		<sheetView tabSelected="1" workbookViewId="0">
+			<selection activeCell="C3" sqref="C3"/>
 		</sheetView>
 	</sheetViews>
 	<sheetFormatPr defaultRowHeight="15" x14ac:dyDescent="0.25"/>
