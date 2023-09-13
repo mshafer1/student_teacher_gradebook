@@ -296,7 +296,7 @@ class MainWorkbook(_BaseWorkBook):
             ):
                 if row[0] in student_names and any(val is not None for val in row[1:]):
                     name = row[0]
-                    values = [val or "" for val in row[1:]]
+                    values = [val if val is not None else "" for val in row[1:]]
                     if name not in student_data_mapping:
                         student_data_mapping[name] = []
                     student_data_mapping[name].append([sheet_name] + values)
