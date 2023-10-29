@@ -1,10 +1,10 @@
 <?xml version="1.0" ?>
 <workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x15="http://schemas.microsoft.com/office/spreadsheetml/2010/11/main" xmlns:xr="http://schemas.microsoft.com/office/spreadsheetml/2014/revision" xmlns:xr6="http://schemas.microsoft.com/office/spreadsheetml/2016/revision6" xmlns:xr10="http://schemas.microsoft.com/office/spreadsheetml/2016/revision10" xmlns:xr2="http://schemas.microsoft.com/office/spreadsheetml/2015/revision2" mc:Ignorable="x15 xr xr6 xr10 xr2">
 	<fileVersion DNC="true" />
-	<workbookPr defaultThemeVersion="166925"/>
+	<workbookPr codeName="ThisWorkbook" defaultThemeVersion="166925"/>
 	<mc:AlternateContent xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
 		<mc:Choice Requires="x15">
-			<x15ac:absPath xmlns:x15ac="http://schemas.microsoft.com/office/spreadsheetml/2010/11/ac" url="C:\Users\mjsha\AppData\Local\Temp\pytest-of-Matthew\pytest-44\test____update_student_sheets_3\"/>
+			<x15ac:absPath xmlns:x15ac="http://schemas.microsoft.com/office/spreadsheetml/2010/11/ac" url="{cwd}\"/>
 		</mc:Choice>
 	</mc:AlternateContent>
 	<revision value="redacted"/>
@@ -12,7 +12,14 @@
 		<workbookView DNC="true" />
 	</bookViews>
 	<sheets>
-		<sheet name="Progress" sheetId="2" r:id="rId1"/>
+		<sheet name="Config" sheetId="4" r:id="rId1"/>
+		<sheet name="Roster" sheetId="1" r:id="rId2"/>
+		<sheet name="Quiz 1" sheetId="2" r:id="rId3"/>
+		<sheet name="Assignment 2" sheetId="3" r:id="rId4"/>
+		<sheet name="Make Up Quiz 1" sheetId="5" r:id="rId5"/>
+		<sheet name="Quiz 3" sheetId="6" r:id="rId6"/>
+		<sheet name="Quiz 4" sheetId="7" r:id="rId7"/>
+		<sheet name="Quiz 5" sheetId="8" r:id="rId8"/>
 	</sheets>
 	<calcPr calcId="191029"/>
 	<extLst>
