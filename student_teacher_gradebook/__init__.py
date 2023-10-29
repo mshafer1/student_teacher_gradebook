@@ -4,6 +4,7 @@ import datetime
 import hashlib
 import logging
 import pathlib
+import shutil
 import typing
 
 import win32com
@@ -22,6 +23,9 @@ _TABLE_OFFSET = 1
 def _get_win32com_cache_path():
     return pathlib.Path(win32com.__gen_path__)
 
+def clear_win32com_cache():
+    path = _get_win32com_cache_path()
+    shutil.rmtree(path)
 
 class _VBA_Consts:  # noqa: N801
     xlUp = -4162  # noqa: N815 - matching Excel convention
