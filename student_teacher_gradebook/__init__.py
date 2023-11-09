@@ -78,6 +78,19 @@ class _BaseWorkBook:
     def __init__(self, path: _StrOrPath) -> None:
         self._path = pathlib.Path(path).resolve()
         self._workbook = None
+        try:
+            self._app = win32.gencache.EnsureDispatch("Excel.Application")
+        except AttributeError:
+            _MODULE_LOGGER.warning("Failed to load win32com - likely a cache problem. Clearing the cache.")
+            clear_win32com_cache()
+            import importlib
+            import sys
+            for module in list(sys.modules):
+                if module.startswith("win32com.") or module.startswith("win32."):
+                    del sys.modules[module]
+            importlib.reload(win32com)
+            importlib.reload(win32)
+            importlib.reload(win32.gencache)
         self._app = win32.gencache.EnsureDispatch("Excel.Application")
         self._app.Visible = True
 
